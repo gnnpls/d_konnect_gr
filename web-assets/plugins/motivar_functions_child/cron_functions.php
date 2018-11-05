@@ -12,7 +12,7 @@ add_action('konnect_collect_money', 'konnect_collect_money_function');
 function konnect_collect_money_function()
 {
 
-    $month = 8;
+    $month = 9;
     $year = 2018;
 
     $fields = array('month' => $month, 'year' => $year);
@@ -50,15 +50,13 @@ function konnect_collect_money_function()
             delete_field('income', $id);
             $income = array();
             $time = date('d/m/Y', strtotime('now'));
+            $total = 0;
             foreach ($data as $key => $dato) {
-              if ($dato['paid']>0)
-              {
-
-              
-                $new_value = array('date' => $time, 'type' => 17, 'source' => 20, 'amount' => $dato['paid'], 'final' => $dato['paid'], 'income_source' => $dato['title'], 'reason' => 'Konnect Fee - '.$dato['all']);
-                update_row('income', $key, $new_value, $id);
+                if ($dato['paid'] > 0) {
+                    $paid=floatval($dato['paid']);
+                    $new_value = array('date' => $time, 'type' => 17, 'source' => 20, 'amount' => $paid, 'final' => $paid, 'income_source' => $dato['title'], 'reason' => 'Konnect Fee - ' . $dato['all']);
+                    update_row('income', $key, $new_value, $id);
                 }
-                
 
             }
 
